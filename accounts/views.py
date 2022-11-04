@@ -3,6 +3,7 @@ from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import AuthenticationForm
+from django.http.response import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST, require_http_methods
 from .forms import CustomUserCreationForm
@@ -68,6 +69,13 @@ def follow(request, user_pk):
         if person != user:
             if person.followers.filter(pk=user.pk).exists():
                 person.followers.remove(user)
+                isFollowed = False
             else:
                 person.followers.add(user)
-    return redirect('accounts:profile', person.username)
+                isFollowed = True
+            context = {
+                'isFollowed':isFollowed,
+                'cnt':person.followers.count()
+            }
+            return JsonResponse(context)
+    return redirect('accounts:login')
