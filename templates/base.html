@@ -8,39 +8,39 @@
   <title>Document</title>
 </head>
 <body class='d-flex flex-column align-items-center' style='height:100vh; background-color: #fafafa;'>
-  <div class="container">
+  <div class="container d-flex flex-column align-items-center">
     {% comment %} 네비게이션 바 {% endcomment %}
-    <nav class="navbar navbar-expand bg-light bg-white border-bottom w-75" style='position:relative;'>
+    <div class="navbar navbar-expand bg-light bg-white border-bottom w-100" style='position:relative;'>
       <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'movies:index' %}">
+        <a class="navbar-brand ms-3" href="{% url 'movies:index' %}">
           <img src="{% static 'movies/movie_icon.png' %}" alt="movie_icon" width=30 height=30>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="navbar-collapse d-flex justify-content-evenly" id="navbarSupportedContent">
+        <div class="navbar-collapse d-flex justify-content-end me-3" id="navbarSupportedContent">
           <ul class="navbar-nav mb-2 mb-lg-0 d-flex justify-content-center">
             {% comment %} Movie {% endcomment %}
-            <li class="nav-item">
+            <li class="nav-item btn border-secondary border-5 rounded-5 py-1 mx-1">
               <a class="nav-link active" aria-current="page" href="{% url 'movies:index' %}">
                 Movie
               </a>
             </li>
             {% comment %} Community {% endcomment %}
-            <li class="nav-item">
+            <li class="nav-item btn border-secondary border-5 rounded-5 py-1 mx-1">
               <a class="nav-link active" aria-current="page" href="{% url 'community:index' %}">
                 Community
               </a>
             </li>
             {% comment %} New review {% endcomment %}
-            <li class="nav-item">
+            <li class="nav-item btn border-secondary border-5 rounded-5 py-1 mx-1">
               <a class="nav-link active" aria-current="page" href="{% url 'community:create' %}">
                 New Review
               </a>
             </li>
 
-            <div class="dropdown-center d-flex align-items-center">
+            <div class="dropdown-center d-flex align-items-center btn border-secondary border-5 rounded-5 py-1 mx-1">
               <button class='bg-transparent border-0 ' data-bs-toggle="dropdown" aria-expanded="false">
                 {% comment %} <img src="{% static 'articles/profile_icon.png' %}" alt="profile_icon" width=30 height=30> {% endcomment %}
                 메뉴
@@ -48,6 +48,7 @@
               {% if request.user.is_authenticated %}
                 <ul class="dropdown-menu">
                   <li><a class="dropdown-item" href="{% url 'accounts:profile' request.user.username %}">프로필</a></li>
+                  <hr class="m-1">
                   <li>
                     <form action="{% url 'accounts:logout' %}" method='POST'>
                       {% csrf_token %}
@@ -69,7 +70,7 @@
           </ul>
         </div>
       </div>
-    </nav>
+    </div>
     {% block content %}
     {% endblock content %}
     {% block script %}

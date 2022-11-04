@@ -1,13 +1,17 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1>Movies</h1>
-  <ul>
-    <h3>전체 영화 목록</h3>
-    {% for movie in movies %}
-    <a href="{% url 'movies:detail' movie.pk %}">
-      <li>{{ movie.title }}</li>
-    </a>
-    {% endfor %}
-  </ul>
+  <h1 class="my-4">Movies</h1>
+  <div class="border my-3 p-5 rounded-5 border-5">
+    <ul>
+      <h3>전체 영화 목록</h3>
+      <hr>
+      {% for movie in movies %}
+      <a class="text-decoration-none" href="{% url 'movies:detail' movie.pk %}">
+        <li>{{ movie.title }}</li>
+      </a>
+      <hr>
+      {% endfor %}
+    </ul>
+  </div>
 {% endblock %}
