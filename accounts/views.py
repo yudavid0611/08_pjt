@@ -62,9 +62,13 @@ def profile(request, username):
         split_genre = review.movie_genre.split(',')
         for genre in split_genre:
             genres[genre] += 1
-    favorite_genre = max(genres, key=lambda x:genres[x])
-    favorite_genre_id = Genre.objects.filter(name=favorite_genre)[0].id
-    recommend_movies = Movie.objects.filter(genres=favorite_genre_id).order_by('-vote_average')
+
+    recommend_movies = []
+
+    if genres:
+        favorite_genre = max(genres, key=lambda x:genres[x])
+        favorite_genre_id = Genre.objects.filter(name=favorite_genre)[0].id
+        recommend_movies = Movie.objects.filter(genres=favorite_genre_id).order_by('-vote_average')
     
     context = {
         'person': person,
