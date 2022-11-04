@@ -51,9 +51,10 @@
           }
           likeCountBtn.innerText = likeCount
         })
+        .catch((error) => {
+          console.log(error.response)
+        })
     })
   })
 </script>      
-
-
 {% endblock script %}

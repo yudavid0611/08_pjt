@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,23 +7,68 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
   <title>Document</title>
 </head>
-<body>
+<body class='d-flex flex-column align-items-center' style='height:100vh; background-color: #fafafa;'>
   <div class="container">
-    <nav>
-      {% if user.is_authenticated %}
-      <h3>Hello, {{ user.username }}</h3>
-      <a href="{% url 'accounts:profile' user %}">내 프로필</a>
-      <form action="{% url 'accounts:logout' %}" method="POST">
-        {% csrf_token %}
-        <input type="submit" value="Logout">
-      </form>
-      <a href="{% url 'movies:index'%}">Movie</a>
-      <a href="{% url 'community:index'%}">Community</a>
-      <a href="{% url 'community:create'%}">New Review</a>
-      {% else %}
-      <a href="{% url 'accounts:signup' %}">Signup</a>
-      <a href="{% url 'accounts:login' %}">Login</a>
-      {% endif %}
+    {% comment %} 네비게이션 바 {% endcomment %}
+    <nav class="navbar navbar-expand bg-light bg-white border-bottom w-75" style='position:relative;'>
+      <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'movies:index' %}">
+          <img src="{% static 'movies/movie_icon.png' %}" alt="movie_icon" width=30 height=30>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="navbar-collapse d-flex justify-content-evenly" id="navbarSupportedContent">
+          <ul class="navbar-nav mb-2 mb-lg-0 d-flex justify-content-center">
+            {% comment %} Movie {% endcomment %}
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{% url 'movies:index' %}">
+                Movie
+              </a>
+            </li>
+            {% comment %} Community {% endcomment %}
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{% url 'community:index' %}">
+                Community
+              </a>
+            </li>
+            {% comment %} New review {% endcomment %}
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{% url 'community:create' %}">
+                New Review
+              </a>
+            </li>
+
+            <div class="dropdown-center d-flex align-items-center">
+              <button class='bg-transparent border-0 ' data-bs-toggle="dropdown" aria-expanded="false">
+                {% comment %} <img src="{% static 'articles/profile_icon.png' %}" alt="profile_icon" width=30 height=30> {% endcomment %}
+                메뉴
+              </button>
+              {% if request.user.is_authenticated %}
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="{% url 'accounts:profile' request.user.username %}">프로필</a></li>
+                  <li>
+                    <form action="{% url 'accounts:logout' %}" method='POST'>
+                      {% csrf_token %}
+                      <input class="dropdown-item" type="submit" value='로그아웃'>
+                    </form>
+                  </li>
+                </ul>
+              {% else %}
+                <ul class="dropdown-menu">
+                  <li class="dropdown-item">
+                    <a class='text-reset text-decoration-none' href="{% url 'accounts:signup' %}">회원가입</a>
+                  </li>
+                  <li class="dropdown-item">
+                    <a class='text-reset text-decoration-none' href="{% url 'accounts:login' %}">로그인</a>
+                  </li>
+                </ul>
+              {% endif %}
+            </div>
+          </ul>
+        </div>
+      </div>
     </nav>
     {% block content %}
     {% endblock content %}

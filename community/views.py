@@ -88,5 +88,4 @@ def like(request, review_pk):
             'isLiked': is_liked,
             'likeCount': likes_count,
         }
-        return JsonResponse(context)
-    return redirect('accounts:login')
+    return JsonResponse(context)
