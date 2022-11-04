@@ -12,3 +12,6 @@ class Movie(models.Model):
     overview = models.TextField()
     poster_path = models.CharField(max_length=200)
     genres = models.ManyToManyField(Genre)
+
+    def __str__(self):
+        return str(self.title + ' ' + str(self.vote_average))

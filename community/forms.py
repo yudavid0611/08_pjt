@@ -7,6 +7,7 @@ class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
         fields = ['title', 'movie_title', 'rank', 'content']
+        read_only_fieds = ['movie_genre',]
 
 
 class CommentForm(forms.ModelForm):

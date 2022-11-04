@@ -11,7 +11,7 @@ class Review(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_reviews')
-
+    movie_genre = models.CharField(max_length=10)
 
 class Comment(models.Model):
     content = models.TextField()

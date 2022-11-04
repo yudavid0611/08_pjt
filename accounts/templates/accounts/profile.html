@@ -7,6 +7,13 @@
       <div>
         팔로잉 : {{ followings|length }} / 팔로워 : <span id="followers">{{ followers|length }}</span>
       </div>
+      {% comment %} 추천영화 {% endcomment %}
+      <div>
+        <p>추천 영화</p>
+        {% for movies in recommend_movies %}
+          <span> {{ movies.title }}</span>
+        {% endfor %}
+      </div>
       {% if user != person %}
         <div>
           <form method="POST" data-user-id={{ person.pk }} id="followForm">

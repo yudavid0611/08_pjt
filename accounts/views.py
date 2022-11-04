@@ -7,7 +7,8 @@ from django.http.response import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST, require_http_methods
 from .forms import CustomUserCreationForm
-
+from collections import defaultdict
+from movies.models import Genre, Movie
 
 @require_http_methods(['GET', 'POST'])
 def signup(request):
@@ -55,8 +56,19 @@ def logout(request):
 @login_required
 def profile(request, username):
     person = get_object_or_404(get_user_model(), username=username)
+    reviews = person.review_set.all()
+    genres = defaultdict(int)
+    for review in reviews:
+        split_genre = review.movie_genre.split(',')
+        for genre in split_genre:
+            genres[genre] += 1
+    favorite_genre = max(genres, key=lambda x:genres[x])
+    favorite_genre_id = Genre.objects.filter(name=favorite_genre)[0].id
+    recommend_movies = Movie.objects.filter(genres=favorite_genre_id).order_by('-vote_average')
+    
     context = {
         'person': person,
+        'recommend_movies': recommend_movies[:10],
     }
     return render(request, 'accounts/profile.html', context)
 

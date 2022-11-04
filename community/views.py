@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_GET, require_POST, require_http_methods
 from .models import Review, Comment
+from movies.models import Movie
 from .forms import ReviewForm, CommentForm
 from django.http.response import JsonResponse
 
@@ -17,10 +18,19 @@ def index(request):
 @require_http_methods(['GET', 'POST'])
 def create(request):
     if request.method == 'POST':
-        form = ReviewForm(request.POST) 
+        form = ReviewForm(request.POST)
+        movie_title = request.POST.get('movie_title')
+        movie = Movie.objects.filter(title=movie_title)[0]
+        genres = movie.genres.all()
+        genre_names = ''
+        for genre in genres:
+            genre_names += f'{genre.name},'
+        genre_names = genre_names[:-1]
+
         if form.is_valid():
             review = form.save(commit=False)
             review.user = request.user
+            review.movie_genre = genre_names
             review.save()
             return redirect('community:detail', review.pk)
     else:
