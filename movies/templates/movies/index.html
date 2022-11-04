@@ -5,7 +5,9 @@
   <ul>
     <h3>전체 영화 목록</h3>
     {% for movie in movies %}
-    <li>{{ movie.title }}</li>
+    <a href="{% url 'movies:detail' movie.pk %}">
+      <li>{{ movie.title }}</li>
+    </a>
     {% endfor %}
   </ul>
 {% endblock %}

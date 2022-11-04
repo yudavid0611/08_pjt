@@ -1,4 +1,14 @@
 {% extends 'base.html' %}
 
 {% block content %}
+  <h1>영화 상세 페이지</h1>
+  <img src="{{ movie.poster_path }}" alt="movie_poster">
+  {{ movie.title }}
+  {{ movie.overview }}
+
+  {% comment %} index 페이지로 돌아가기 {% endcomment %}
+  <hr>
+  <footer>
+    <a href="{% url 'movies:index' %}">back</a>
+  </footer>
 {% endblock %}
