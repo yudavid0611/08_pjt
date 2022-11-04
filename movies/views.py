@@ -1,6 +1,5 @@
 from django.shortcuts import render, get_list_or_404, get_object_or_404
 from django.views.decorators.http import require_safe
-from django.http.response import JsonResponse
 from .models import Movie
 
 # Create your views here.
